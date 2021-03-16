@@ -7,6 +7,152 @@
 
 template <class T>
 class Vector {
+private:
+    T* _data;
+    int _size, _capacity;
+public:
+    Vector() {
+        _capacity = 1;
+        _size = 0;
+        _data = new T[_capacity];
+    }
+
+    Vector(int n) {
+        _size = n;
+        _capacity = 2*n;
+        _data = new T[_capacity];
+    }
+
+    Vector(int n, T base) {
+        _data = new T[2*n];
+        for(int i = 0; i < n; i ++){
+            _data[i] = base;
+        }
+        _size = n;
+        _capacity = 2*n;
+    }
+
+    void push_back(const T& x){
+        if(_size < _capacity){
+            _data[_size] = x;
+            _size ++;
+        }else{
+            _capacity *= 2;
+            T* _temp = new T[_capacity];
+            for(int i = 0; i < _size; i ++){
+                _temp[i] = _data[i];
+            }
+            _temp[_size] = x;
+            if(_size > 0){
+                delete _data;
+            }
+            _data = _temp;
+            _size ++;
+        }
+    }
+
+    void pop_back(){
+        if(_size == 0){
+            //Error
+        }else{
+            if(_size * 2 > _capacity){
+            _size --;
+        }else{
+            _size --;
+            _capacity /= 2;
+            T* _temp = new T[_capacity];
+            for(int i = 0; i < _size; i ++){
+                _temp[i] = _data[i];
+            }
+            if(_size > 0){
+                delete _data;
+            }
+            _data = _temp;
+
+        }
+
+        }
+    }
+
+    int size() {
+        return _size;
+    }
+
+    int capacity() {
+        return _capacity;
+    }
+
+    void resize(int n) {
+        T* temp = new T[2*n];
+        for(int i = 0; i < n; i ++){
+            if(i < _size){
+                temp[i] = _data[i];
+            }else{
+            }
+        }
+        if(_size > 0){
+            delete _data;
+        }
+        _data = temp;
+        if(_capacity < n){
+            _capacity = 2*n;
+        }
+        _size = n;
+    }
+
+    void resize(int n, T x) {
+        T* temp = new T[2*n];
+        for(int i = 0; i < n; i ++){
+            if(i < _size){
+                temp[i] = _data[i];
+            }else{
+                temp[i] = x;
+            }
+        }
+        _data = temp;
+        if(_size > 0){
+            delete _data;
+        }
+        if(_capacity < n){
+            _capacity = 2*n;
+        }
+        _size = n;
+    }
+
+
+    ~Vector() {
+        if(_size > 0){
+            delete _data;
+        }
+    }
+
+    bool empty(){
+        if(_size == 0){
+            return true;
+        }
+        return false;
+    }
+
+    T& operator[](const int i) {
+        return _data[i];
+    }
+
+    T& operator[](const int i) const {
+        return _data[i];
+    }
+
+    void clear(){
+        if(_size > 0){
+            delete _data;
+            _data = new T[1];
+            _size = 0;
+            _capacity = 1;
+        }
+    }
+
+    void reserve(int n){
+        _capacity = 2*n;
+    }
 
 };
 
